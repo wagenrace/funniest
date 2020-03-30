@@ -1,0 +1,61 @@
+<!-- chat/templates/chat/room.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Tictactoe</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container"></div>
+    <div class="row">
+        <div class="col-8">
+            <p class="board" height="400">
+                board
+            </p>
+        </div>
+        <div class="col-4">
+            <p class="players-list">
+                player list
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <button color="blue" onclick="send_color('blue')">
+                blue
+            </p>
+        </div>
+        <div class="col-4">
+            <button color="red" onclick="send_color('red')">
+                red
+            </p>
+        </div>
+    </div>
+    </div>
+    {{ room_name|json_script:"room-name" }}
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/tictactoe/'
+            + roomName
+            + '/'
+        );
+        console.log(roomName)
+
+        function send_color(color) {
+            chatSocket.send(JSON.stringify({
+                'type': "update_color",
+                "value": color
+            }));
+        };
+    </script>
+</body>
+
+</html>
