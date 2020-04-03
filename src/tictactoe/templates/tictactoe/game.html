@@ -18,9 +18,10 @@
             </p>
         </div>
         <div class="col-4">
-            <p class="players-list">
+            <p >
                 player list
             </p>
+            <textarea id="players-list"></textarea><br>
         </div>
     </div>
     <div class="row">
@@ -48,6 +49,13 @@
             + '/'
         );
         console.log(roomName)
+
+        chatSocket.onmessage = function(e) {
+            console.log("a message")
+            const data = JSON.parse(e.data);
+            console.log(data.users)
+            document.querySelector('#players-list').value = (data.users);
+        };
 
         function send_color(color) {
             chatSocket.send(JSON.stringify({
